@@ -1,78 +1,73 @@
 // Rock Paper Scissors game, human vs. computer, First to 5 (best of 5?) wins.
 
-//loads the player data objects
+// player data objects
 import playerObjectArray from "./components/data.js"
 
-//loads the startGame functionality
-//import {setStart, shoot, startGame} from './components/startGame.js';
+// creates player objects from the pulled data
+let userPlayer = playerObjectArray.find(({id}) => id === 'user');
+let compPlayer = playerObjectArray.find(({id}) => id === 'comp');
 
-//text constants
+// constants for use in gameplay
 const rock = 'rock';
 const paper = 'paper';
 const scissors = 'scissors';
 
-//creates objects for the players (user and computer)
-let userPlayer = playerObjectArray.find(({id}) => id === 'user');
-let compPlayer = playerObjectArray.find(({id}) => id === 'comp');
+// for use in resetting the game board
+const newGameHTML = `
+<h3>Let's Go!</h3>
+<p>It's you vs. the computer. First one to 5 wins!</p>
+<div class="scoreboard" id="scorespace">
+<table>
+  <thead>
+    <tr>
+      <th colspan="2">Scoreboard</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>You</td>
+      <td>Comp</td>
+    </tr>
+    <tr>
+      <td id="user-score">0</td>
+      <td id="comp-score">0</td>
+    </tr>
+    <tr>
+      <td colspan="2"></td>
+    </tr>
+  </tbody>
+  </table>
+</div>
+<div id="playspace">
+  <div id="playHeadings">
+    <h4>Rock, Paper, Scissors, Shoot!</h4>
+  <div>
+  <button id='rockSubmit'>Rock</button>
+  <button id='paperSubmit'>Paper</button>
+  <button id='scissorsSubmit'>Scissors</button>
+  <p>
+    <span id="user-play"></span>
+    <span id="comp-play"></span>
+  </p>
+  <p id="round-result"></p>
+</div>
+`;
 
-//creates variables for plays and results
+// game play UI happens here
+const gameBoard = document.getElementById("app");
+
+// variables for plays results
 let compPlay;
 let userPlay;
 let roundResult;
 
-// Press start and the UI and instructions are displayed.
-const game = document.getElementById("app");
+// adds a listener to UI so user can start a new game
+const addStartListener = function(){
+  const startButton = document.querySelector("#start-button");
+  startButton.addEventListener('click', startGame);
+}
 
-//when called, this function sets the game board for a new game
-function startGame() {
-  //initializes player scores
-  compPlayer.score = 0;
-  compPlayer.lastPlay = '';
-  console.log(compPlayer);
-  userPlayer.score = 0;
-  userPlayer.lastPlay = '';
-  console.log(userPlayer);
-  //sets user interface
-  game.innerHTML = `
-    <h3>Let's Go!</h3>
-    <p>It's you vs. the computer. First one to 5 wins!</p>
-    <div class="scoreboard" id="scorespace">
-    <table>
-      <thead>
-        <tr>
-          <th colspan="2">Scoreboard</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>You</td>
-          <td>Comp</td>
-        </tr>
-        <tr>
-          <td id="user-score">${userPlayer.score}</td>
-          <td id="comp-score">${userPlayer.score}</td>
-        </tr>
-        <tr>
-          <td colspan="2"></td>
-        </tr>
-      </tbody>
-      </table>
-    </div>
-    <div id="playspace">
-      <div id="playHeadings">
-        <h4>Rock, Paper, Scissors, Shoot!</h4>
-      <div>
-      <button id='rockSubmit'>Rock</button>
-      <button id='paperSubmit'>Paper</button>
-      <button id='scissorsSubmit'>Scissors</button>
-      <p>
-        <span id="user-play"></span>
-        <span id="comp-play"></span>
-      </p>
-      <p id="round-result"></p>
-    </div>
-  `;
-
+const addPlayListeners = function(){
   const rockSubmit = document.querySelector("#rockSubmit");
   const paperSubmit = document.querySelector("#paperSubmit");
   const scissorsSubmit = document.querySelector("#scissorsSubmit");
@@ -80,8 +75,9 @@ function startGame() {
   rockSubmit.addEventListener('click', playRock);
   paperSubmit.addEventListener('click', playPaper);
   scissorsSubmit.addEventListener('click', playScissors);
-}
+};
 
+// if a player wins, the winner argument is passed from showRoundResult, the user is notified in the UI and is given the option to start a new game. 
 function gameWinner(winner){
   const playHeadings = document.querySelector('#playHeadings');
   console.log(userPlayer);
@@ -91,18 +87,16 @@ function gameWinner(winner){
       <h4>You win the game, good job!</h4>
       <h5>Play again?</h5>
     <button id="start-button">Play Again</button>`
-    const startButton = document.querySelector("#start-button");
-    startButton.addEventListener('click', startGame);
+    addStartListener();
   } else {
     playHeadings.innerHTML = `
       <h4 syle="font-size: 2em;">You lost :(</h4>
       <h5>Sorry, the random number generator outsmarted you. Better luck next time, eh?</h5>
       <h5>Play again?</h5>
       <button id="start-button">Play Again</button>`
-    const startButton = document.querySelector("#start-button");
-    startButton.addEventListener('click', startGame);
+      addStartListener();
   }
-}
+};
 
 // Displays the result of the round
 // If a player gets to five points: 
@@ -218,6 +212,22 @@ function playScissors() {
   playRound(scissors);
 }
 
-const startButton = document.querySelector("#start-button");
-startButton.addEventListener('click', startGame);
+function initPlayers(){
+  //initializes player scores
+  compPlayer.score = 0;
+  compPlayer.lastPlay = '';
+  userPlayer.score = 0;
+  userPlayer.lastPlay = '';
+}
+
+// sets the board for a new game
+function startGame() {
+  initPlayers();
+  //sets user interface
+  gameBoard.innerHTML = newGameHTML;
+  addPlayListeners();
+};
+
+// watch for start button to be clicked
+addStartListener();
 
