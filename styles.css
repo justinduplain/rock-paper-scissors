@@ -1,0 +1,12 @@
+body {
+	font-family: sans-serif;
+	margin: 40px;
+}
+
+div#app {
+}
+
+div#scoreboard {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
