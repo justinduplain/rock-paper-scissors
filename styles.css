@@ -1,9 +1,12 @@
 body {
 	font-family: sans-serif;
 	margin: 40px;
+	text-align: center;
 }
 
-div#app {
+table {
+	margin-right: auto;
+	margin-left: auto;
 }
 
 div#scoreboard {
