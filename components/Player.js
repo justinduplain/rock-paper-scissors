@@ -3,6 +3,7 @@
 class Player{
 	constructor(
 		id,
+		name,
 		score,
 		currentPlay,
 		lastPlay

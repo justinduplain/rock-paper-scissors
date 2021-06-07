@@ -3,18 +3,43 @@
   <head>
     <title>Rock, Paper, Scissors</title>
     <meta charset="UTF-8" />
-    <script type="module" src="./components/Player.js"></script>
-    <script type="module" src="./components/data.js"></script>
+    <script type="module" src="./components/gameObjects.js"></script>
+    <script type="module" src="./components/uiObjects.js"></script>
     <script type="module" src="game.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css" /> 
   </head>
   <body>
-    <h1>Rock, Paper Scissors</h1>
-    <div id="app">
-      <h2>Welcome!</h2>
-      <div>
-        <p>Press play to start.</p>
-        <button id="start-button">Play!</button>
+    <nav class="navbar navbar-expand-md fixed-top bg-light justify-content-evenly row">
+      <!-- <div class="row my-header"> -->
+        <div class="col-sm-8">
+          <h1>
+            <span class="sr-only">Rock, Paper, Scissors, Shoot!</span>
+            <span aria-hidden="true"><img src="img/rock.png"><img src="img/paper.png"><img src="img/scissors.png"><img src="img/shoot.png"></span>
+          </h1>
+        </div>
+        <div class="col-sm-4">
+          <button type="button" id="start-button" class="btn btn-primary btn-md">Start Game</button>
+        </div>
+      <!--  </div> -->
+    </nav>
+    <div class="container-md">
+       <div id="app">
+       </div>
     </div>
+    <nav class="navbar fixed-bottom navbar-expand-sm center-text bg-light d-flex justify-content-center">
+      <p class="center-text">View on GitHub</p>
+    </nav>
   </body>
 </html>
+
+<!-- 
+
+<div class="row my-header">
+        <div class="col-md-7 justify-content-center">
+          <div class="page-header">
+
+          </div>
+        </div>
+-->
+
