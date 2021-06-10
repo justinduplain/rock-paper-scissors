@@ -1,63 +1,87 @@
 // Rock Paper Scissors game, human vs. computer, First to 5 (best of 5?) wins.
 
 // gameplay data objects
-import { avatars, userPlayer, compPlayer, gameData } from './components/gameObjects.js';
-import { gamePlayUI, historyCols } from "./components/uiObjects.js"
+import { avatars, compAvatars, userPlayer, compPlayer, gameData } from './components/gameObjects.js';
+import { avatarUI, gamePlayUI, historyTR } from "./components/uiObjects.js"
 
 // constants for use in gameplay
 const rock = 'rock';
 const paper = 'paper';
 const scissors = 'scissors';
 
-// for use in resetting the game board
-const startButton = document.querySelector("#start-button");
-
-
-// game play UI happens here
-const gameBoard = document.querySelector("#app");
+// for use in loading into the game
+const loadButton = document.querySelector('#load-button');
 
 // variables for plays results
 let compPlay;
 let userPlay;
 let roundResult;
 
-// adds a listener to UI so user can start a new game
-const addStartListener = function(){
-  startButton.addEventListener('click', startGame);
+const addLoadListener = function(){
+  loadButton.addEventListener('click', loadGame);
+};
+
+const setShoot = function() {
+  let playConfirm = document.querySelector('#play-confirm');
+  playConfirm.innerText = `Shoot ${userPlay}`;
+  let userChoice = document.querySelector('#user-choice');
+  userChoice.innerHTML = `<img src="img/${userPlay}.png" alt="${userPlay} icon">`
+}
+
+// sets the user's play
+const setRock = function() {
+  userPlay = 'rock';
+  console.log(userPlay);
+  setShoot();
+}
+
+const setPaper = function() {
+  userPlay = 'paper';
+  console.log(userPlay);
+  setShoot();
+}
+
+const setScissors = function() {
+  userPlay = 'scissors';
+  console.log(userPlay);
+  setShoot();
 }
 
 const addPlayListeners = function(){
-  const rockSubmit = document.querySelector("#rockSubmit");
-  const paperSubmit = document.querySelector("#paperSubmit");
-  const scissorsSubmit = document.querySelector("#scissorsSubmit");
-
-  rockSubmit.addEventListener('click', playRock);
-  paperSubmit.addEventListener('click', playPaper);
-  scissorsSubmit.addEventListener('click', playScissors);
+  const rockSubmit = document.querySelector('#rockSubmit');
+  const paperSubmit = document.querySelector('#paperSubmit');
+  const scissorsSubmit = document.querySelector('#scissorsSubmit');
+  const shootSubmit = document.querySelector('#play-submit');
+  rockSubmit.addEventListener('click', setRock);
+  paperSubmit.addEventListener('click', setPaper);
+  scissorsSubmit.addEventListener('click', setScissors);
+  shootSubmit.addEventListener('click', executeRound);
 };
 
 // if a player wins, the winner argument is passed from checkWin, the user is notified in the UI and is given the option to start a new game. 
 function gameWinner(){
   let playInput = document.querySelector('#play-input');
   let roundNumber = document.querySelector('#round-number');
-  roundNumber.innerHTML = '<h4>Game Winner!</h4>';
-  playInput.innerHTML = '<h2>Winner</h2>';
+  updateHistory(gameData.round);
   if(userPlayer.lastPoint === 1) {
-    roundNumber.innerHTML = ('<h4>You win the game, good job!</h4>');
-    //  <h5>Play again?</h5>
-    // <button id="start-button">Play Again</button>
-    // addStartListener();
+    roundNumber.innerHTML = `
+      <p class="card-text" id="play-confirm"></p>
+      <h4>You win the game, good job!</h4>`;
+    playInput.innerHTML = `
+      <img src="img/char/${userPlayer.avatar}.png" alt="${userPlayer.avatar}">
+      <h2>Winner</h2>`;
   } else {
-    roundNumber.innerHTML = 
-    '<h4>You lost the game, sorry.</h4>'
-    //  <h5>Play again?</h5>
-    // <button id="start-button">Play Again</button>
-    // addStartListener();
+    roundNumber.innerHTML = `
+      <p class="card-text" id="play-confirm"></p>
+      <h4>You lost the game, sorry.</h4>`
+    playInput.innerHTML = `
+      <img src="img/comp/${compPlayer.avatar}.png" alt="${compPlayer.avatar} icon">
+      <h2>Winner</h2>`;
   }
+  addResetButtons('inputarea');
 };
 
-//play-input
-
+// play-input
 const updatePlayCounts = function() {
   document.querySelector('#compRockCount').innerText = compPlayer.rockCount;
   document.querySelector('#compPaperCount').innerText = compPlayer.paperCount;
@@ -65,6 +89,7 @@ const updatePlayCounts = function() {
   document.querySelector('#userRockCount').innerText = userPlayer.rockCount;
   document.querySelector('#userPaperCount').innerText = userPlayer.paperCount;
   document.querySelector('#userScissorsCount').innerText = userPlayer.scissorsCount;
+  document.querySelector('#play-confirm').innerHTML = roundResult;
 }
 
 // Displays the result of the round
@@ -87,7 +112,9 @@ function checkWin(userScore, compScore) {
 
 //win(), loss(), tie() functions update appropriate scores and updates the scoreboard
 function loss(userPlay, compPlay) {
-  roundResult = 'Comp won. Shoot again.';
+  const shootSubmit = document.querySelector('#play-submit');
+  shootSubmit.innerHTML = `<img src="img/shoot.png" alt="shoot emoji"><span id="user-choice"></span>`;
+  roundResult = `<img src="img/${userPlay}.png" alt="${userPlay} icon">vs<img src="img/${compPlay}.png" alt="${compPlay} icon">`;
   userPlayer.updatePlayerScore(0, userPlay);
   compPlayer.updatePlayerScore(1, compPlay);
   document.querySelector('#comp-score').innerText = compPlayer.score;
@@ -96,7 +123,9 @@ function loss(userPlay, compPlay) {
 }
 
 function win(userPlay, compPlay) {
-  roundResult = 'You won! Shoot again.';
+  const shootSubmit = document.querySelector('#play-submit');
+  shootSubmit.innerHTML = `<img src="img/shoot.png" alt="shoot emoji"><span id="user-choice"></span>`;
+  roundResult = `<img src="img/${userPlay}.png" alt="${userPlay} icon">vs<img src="img/${compPlay}.png" alt="${compPlay} icon">`;
   userPlayer.updatePlayerScore(1, userPlay);
   compPlayer.updatePlayerScore(0, compPlay);
   document.querySelector('#user-score').innerText = userPlayer.score;
@@ -104,9 +133,11 @@ function win(userPlay, compPlay) {
 }
 
 function tie(userPlay, compPlay) {
+  const shootSubmit = document.querySelector('#play-submit');
+  shootSubmit.innerHTML = `<img src="img/shoot.png" alt="shoot emoji"><span id="user-choice"></span>`;
   userPlayer.updatePlayerScore(0, userPlay);
   compPlayer.updatePlayerScore(0, compPlay);
-  roundResult = `both played ${compPlay}.`
+  roundResult = `<img src="img/${userPlay}.png" alt="${userPlay} icon">vs<img src="img/${compPlay}.png" alt="${compPlay} icon">&nbsp;Shoot Again`;
   console.log(roundResult);
 }
 
@@ -146,9 +177,9 @@ function playNotice(userLastPlay, compLastPlay){
 
 const updateHistory = function(round) {
   let gameHistory = document.querySelector('#game-history');
-  let historyRow = document.createElement('div');
-  historyRow.classList = 'history-view row row-cols-11 justify-content-center';
-  historyRow.innerHTML = historyCols;
+  let historyRow = document.createElement('tr');
+  historyRow.classList = "history-view";
+  historyRow.innerHTML = historyTR;
   let userDisk = historyRow.querySelector('.user-disk');
   let usrPrevPlay = historyRow.querySelector('.user-play');
   let prevRound = historyRow.querySelector('.history-round');
@@ -209,9 +240,9 @@ function compShoot(){
 }
 
 //runs functions for one round of play
-function playRound(play) {
-  userPlay = play;
-  userPlayer.lastPlay = play;
+function executeRound() {
+  if(userPlay) {
+    userPlayer.lastPlay = userPlay;
   compShoot();
   compPlayer.lastPlay = compPlay;
   console.log('round ' + (gameData.round) + ':');
@@ -220,43 +251,88 @@ function playRound(play) {
   playNotice(userPlayer.lastPlay, compPlayer.lastPlay);
   updateScore(userPlayer.lastPlay, compPlayer.lastPlay);
   updateHistory((gameData.round-1));
+  } else {
+    document.querySelector('#play-confirm').innerHTML = `<span class="warning">Please select a play.</span>`;
+  }
+  
 };
 
-// playRock, playPaper, and playScissors runs the round with the selected variable
-function playRock() {
-  playRound(rock);
-}
-function playPaper() {
-  playRound(paper);
-}
-function playScissors() {
-  playRound(scissors);
+const setAvatars = function() {
+  let playerIcon = document.querySelectorAll('.player-icon');
+  playerIcon.forEach((item) => {
+    item.innerHTML = `
+    <img src="img/char/${userPlayer.avatar}.png" alt="${userPlayer.avatar}" aria-hidden="true"><h3 class="sr-conly>${userPlayer.avatar}</h3>`
+  })
+  let compIcon = document.querySelectorAll('.comp-icon');
+  compIcon.forEach((item) => {
+    item.innerHTML = `
+    <img src="img/comp/${compPlayer.avatar}.png" alt="${compPlayer.avatar}"><h3 class="sr-conly>${compPlayer.avatar}</h3>`
+  })
+};
+
+// .forEach((container) => {
+
+const addResetButtons = function(location) {
+  if(location == 'nav') {
+    const startButton = document.querySelector('#start-button');
+    startButton.innerText = 'Clear Board';
+    startButton.classList = 'btn btn-outline-primary btn-md';
+    // if the restart button exists, don't make it again
+    if(document.querySelector('#restart-button')) {}
+    else {
+      const resetButtons = document.querySelector('#reset-buttons');
+      let reStartButton = document.createElement('button');
+      reStartButton.setAttribute('type', 'button');
+      reStartButton.classList = 'btn btn-outline-primary btn-md';
+      reStartButton.innerText = 'Avatar Selection';
+      reStartButton.id = "restart-button";
+      reStartButton.addEventListener('click', loadGame);
+      resetButtons.append(reStartButton);
+    };
+  };
+  if(location == 'inputarea') {
+    const playInput = document.querySelector('#play-input');
+    let playAgain = document.createElement('button');
+    playAgain.setAttribute('type', 'button');
+    playAgain.classList = 'btn btn-outline-primary btn-md';
+    playAgain.innerText = 'Play Again';
+    playAgain.id = "play-again";
+    playAgain.addEventListener('click', loadGame);
+    playInput.append(playAgain);
+  };
+};
+
+// chooses a random computer avatar
+const compAvatar = function(){
+  let rand = Math.floor(Math.random() * 9);
+  compPlayer.avatar = compAvatars[rand];
+  console.log('comp avatar is ' + compPlayer.avatar);
 }
 
-function initPlayers(){
-  //initializes player scores
-  compPlayer.init(0);
-  userPlayer.init(0);
-}
 
 // sets the board for a new game
 function startGame() {
-  //initializes player objects in gameObjects.js
-  initPlayers();
-  //sets user interface
+  // initializes imported player objects and plays
+  compPlayer.init(0);
+  userPlayer.init(0);
+  userPlay = undefined;
+  // sets/resets user interface
+  const gameBoard = document.querySelector('#app');
   gameBoard.innerHTML = gamePlayUI;
   addPlayListeners();
-  startButton.innerText = 'Restart Game';
+  addResetButtons('nav');
   gameData.round = 1;
-  console. clear()
+  console.clear();
+  compAvatar();
+  setAvatars();
 };
 
 //loads avatars for selection
-let displayAvatars = (avatars) => {
+let displayAvatars = () => {
   let avatarRow = document.createElement('div');
   avatarRow.classList = 'row';
   avatarRow.id = 'avatarRow';
-  let addAvatarItem = function(element) {
+  const addAvatarItem = function(element) {
     let avatarItem = document.createElement('div');
     avatarItem.classList = 'col-sm-2 col-md-2 col-lg-2 avatar-item';
     avatarItem.id = element;
@@ -265,14 +341,47 @@ let displayAvatars = (avatars) => {
     avatarRow.append(avatarItem);
   }
   avatars.forEach(addAvatarItem);
+  // game play UI happens here
+  const gameBoard = document.querySelector('#app');
   gameBoard.append(avatarRow);
 }
 
-// get the avatar options onto the page
-displayAvatars(avatars);
+// For each avatar container, add eventlisteners for selections
+const addAvatarListeners = function() { 
+  const avatarContainers = document.querySelectorAll(".avatar-item");
+  const startButton = document.querySelector('#start-button');
+  avatarContainers.forEach((container) => {
+    // Set/remove background highlights on click
+    container.addEventListener("click", () => {
+      avatarContainers.forEach((item) => {
+        item.classList.remove('avatar-item-active');
+        item.classList.add('avatar-item');
+      });
+      container.classList.remove('avatar-item');
+      container.classList.add('avatar-item-active');
+      startButton.innerHTML= `PLAY AS <img src="img/char/${container.id}.png" img alt="${container.id}" class="start-avatar">`;
+      startButton.classList.remove('disabled');
+      userPlayer.avatar = container.id;
+      console.log('User chose', userPlayer.avatar);
+    });
+  });
+};
 
-// listen for hover on avatar images
+const loadGame =  () => {
+  //load the avatar space
+  document.body.innerHTML = avatarUI;
+  // for use in starting & restarting the game
+  const startButton = document.querySelector('#start-button');
+  // adds a listener to UI so user can start a new game
+  const addStartListener = function(){
+    startButton.addEventListener('click', startGame);
+  };
+  addStartListener();
+    // watch for avatar being selected
+  // Get all avatar containers iot add event listeners
+  // get the avatar options onto the page
+  displayAvatars();
+  addAvatarListeners();
+}
 
-
-// watch for start button to be clicked
-addStartListener();
+addLoadListener();

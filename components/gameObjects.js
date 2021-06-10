@@ -1,7 +1,7 @@
 //Avatars
 
 const avatars = [
-	'ant',
+'ant',
 'bear',
 'cat',
 'chic',
@@ -27,11 +27,23 @@ const avatars = [
 'zombie'
 ]
 
+const compAvatars = [
+	'8bit',
+	'alien',
+	'clown',
+	'goblin',
+	'ogre',
+	'poo',
+	'red robot',
+	'robot',
+	'skull',
+]
+
 // Data for the user, to be updated throughout gameplay and reset. 
 const userPlayer = {
 	id: 'user',
 	name: 'Player',
-	img: '',
+	avatar: '',
 	score: 0,
 	currentPlay: '',
 	lastPlay: '',
@@ -69,7 +81,7 @@ const userPlayer = {
 const compPlayer = {
 	id: 'comp',
 	name: 'Computer',
-	img: 'img/robot.png',
+	avatar: 'robot',
 	score: 0,
 	currentPlay: '',
 	lastPlay: '',
@@ -112,4 +124,4 @@ const gameData = {
 }
 
 // Export the array to be used in other files
-export { avatars, userPlayer, compPlayer, gameData };
+export { avatars, compAvatars, userPlayer, compPlayer, gameData };
