@@ -334,7 +334,7 @@ let displayAvatars = () => {
   avatarRow.id = 'avatarRow';
   const addAvatarItem = function(element) {
     let avatarItem = document.createElement('div');
-    avatarItem.classList = 'col-sm-2 col-md-2 col-lg-2 avatar-item';
+    avatarItem.classList = 'col-sm-4 col-md-2 col-lg-2 avatar-item';
     avatarItem.id = element;
     avatarItem.innerHTML = `
     <img class="img-fluid avatar-img" src="img/char/${element}.png" alt="${element} face emoji">`

@@ -16,7 +16,7 @@ const avatarUI = `
  </div>
 </div>
 <nav class="navbar fixed-bottom navbar-expand-sm center-text bg-light d-flex justify-content-center">
-<p class="center-text">View on GitHub</p>
+<p class="center-text"><a href="https://github.com/pmentropy/rock-paper-scissors" target="_blank">View on GitHub</a></p>
 </nav>
 `
 
