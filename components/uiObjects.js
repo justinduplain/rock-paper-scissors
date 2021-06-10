@@ -7,7 +7,7 @@ const avatarUI = `
       <span aria-hidden="true"><img src="img/rock.png"><img src="img/paper.png"><img src="img/scissors.png"><img src="img/shoot.png"></span>
     </h1>
   </div>
-  <div class="col-sm-4 d-flex justify-content-left" id="reset-buttons">
+  <div class="col-sm-4 d-flex justify-content-center" id="reset-buttons">
     <button type="button" id="start-button" class="btn btn-outline-primary disabled btn-lg">Choose an Avatar to Start</button>
   </div>
 </nav>
