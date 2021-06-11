@@ -1,5 +1,3 @@
-//Avatars
-
 const avatars = [
 'ant',
 'bear',
