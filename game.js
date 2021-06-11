@@ -62,7 +62,7 @@ const addPlayListeners = function(){
 function gameWinner(){
   let playInput = document.querySelector('#play-input');
   let roundNumber = document.querySelector('#round-number');
-  updateHistory(gameData.round);
+  // updateHistory(gameData.round);
   if(userPlayer.lastPoint === 1) {
     roundNumber.innerHTML = `
       <p class="card-text" id="play-confirm"></p>
