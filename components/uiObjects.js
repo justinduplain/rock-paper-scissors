@@ -67,7 +67,7 @@ const gamePlayUI = `
             </div>
           </div>
           <div class="row d-flex align-items-center justify-content-center">
-            <div class="col-8">
+            <div class="col-9">
               <div class="card">
                 <h5 class="card-header">
                   <span id="round-number">Round: 1</span>
