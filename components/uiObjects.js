@@ -1,20 +1,24 @@
 const avatarUI = `
 <nav class="navbar navbar-expand-md fixed-top bg-light justify-content-evenly row">
-<!-- <div class="row my-header"> -->
   <div class="col-sm-8">
     <h1>
       <span class="sr-only">Rock, Paper, Scissors, Shoot!</span>
       <span aria-hidden="true"><img src="img/rock.png"><img src="img/paper.png"><img src="img/scissors.png"><img src="img/shoot.png"></span>
     </h1>
   </div>
-  <div class="col-sm-4 d-flex justify-content-center" id="reset-buttons">
-    <button type="button" id="start-button" class="btn btn-outline-primary disabled btn-lg">Choose an Avatar to Start</button>
-  </div>
 </nav>
+
 <div class="container-md">
- <div id="app">
- </div>
+  <div class="row row-start-button">
+    <div class ="col-sm-4"></div>
+    <div class="col-sm-4 d-flex justify-content-center" id="reset-buttons">
+      <button type="button" id="start-button" class="btn btn-outline-primary disabled btn-lg">Choose an Avatar to Start</button>
+    </div>
+    <div class ="col-sm-4"></div>
+  </div>
+  <div id="app"></div>
 </div>
+
 <nav class="navbar fixed-bottom navbar-expand-sm center-text bg-light d-flex justify-content-center">
 <p class="center-text"><a href="https://github.com/pmentropy/rock-paper-scissors" target="_blank">View on GitHub</a></p>
 </nav>
