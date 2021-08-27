@@ -1,6 +1,6 @@
 # rock-paper-scissors
 
-First to five vs. the computer: a JavaScript Rock Paper Scissors game made with Bootstrap 5.
+A JavaScript Rock Paper Scissors game made with Bootstrap 5.
 
 <a href="https://pmentropy.github.io/rock-paper-scissors/index.html" target="_blank">
 <img src="https://raw.githubusercontent.com/pmentropy/rock-paper-scissors/main/screenshot.png" width="450" alt="rock-paper-scissors screenshot"></a>
