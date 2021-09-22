@@ -75,7 +75,7 @@ const userPlayer = {
 	}
 }
 
-//Computer data. Intent is to add this object to the browser storage to keep a record of all-time computer plays.
+//Computer data used during gameplay.
 const compPlayer = {
 	id: 'comp',
 	name: 'Computer',
@@ -121,5 +121,5 @@ const gameData = {
 	}
 }
 
-// Export the array to be used in other files
+// Export for use
 export { avatars, compAvatars, userPlayer, compPlayer, gameData };
