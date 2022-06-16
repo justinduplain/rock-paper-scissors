@@ -7,7 +7,7 @@ An emoji-based Rock Paper Scissors game made with Bootstrap 5 and Vanilla JavaSc
 
 ## Play a round:
 
-https://pmentropy.github.io/rock-paper-scissors/index.html
+https://justinduplain.github.io/rock-paper-scissors/index.html
 
 ## About
 
